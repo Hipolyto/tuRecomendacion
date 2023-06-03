@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tuRecomendacion.QuestionsPage"
+             Title="{Binding QuestionModel.Title}" >
+    <VerticalStackLayout VerticalOptions="FillAndExpand">
+        <ScrollView VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="Auto,Auto,*" VerticalOptions="FillAndExpand" HeightRequest="500">
+
+                <BoxView
+                        BackgroundColor="{StaticResource Primary}"
+                        Grid.RowSpan="2"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"/>
+
+                    <Border StrokeShape="RoundRectangle 80"
+                            Stroke="White"
+                            StrokeThickness="6"
+                            HeightRequest="160"
+                            WidthRequest="160"
+                            Margin="0,8,0,0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Image Aspect="AspectFill"
+                                HeightRequest="160"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                BackgroundColor="Red"
+                                WidthRequest="160"/>
+                    </Border>
+
+                <StackLayout   Grid.Row="1" HeightRequest="75" BackgroundColor="Blue">
+
+                     <Label Style="{StaticResource LargeLabel}" 
+                          
+                            TextColor="Black"
+                           BackgroundColor="Red"
+                            FontAttributes="Bold"
+                            Text="{Binding QuestionModel.Title}" 
+                            HorizontalOptions="Center"
+                            Margin="0,20,0,8"/>
+
+
+                    <Button Text="Open" Command="{Binding OnOpenCommand}" />
+
+                </StackLayout>
+
+                   
+
+            </Grid>
+    </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>
