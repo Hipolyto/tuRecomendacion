@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using Microsoft.Maui.Networking;
+using tuRecomendacion.Interfaces;
 using tuRecomendacion.Model;
 
 namespace tuRecomendacion.ViewModels
@@ -9,64 +11,103 @@ namespace tuRecomendacion.ViewModels
     [QueryProperty(nameof(QuestionModel), "QuestionModel")]
     public class QuestionsViewModel : BaseViewModel
     {
-        private QuestionModel _questionModel;
-        IConnectivity connectivity;
-        IGeolocation geolocation;
+        private Question _currentQuestion;
+        private int _currentQuestionIndex;
+        private List<Question> _questions;
 
-        [ObservableProperty]
-        public QuestionModel QuestionModel
+        public QuestionsViewModel()
         {
-            get => _questionModel;
+            _currentQuestionIndex = 0;
+
+            // Define las preguntas y sus opciones aquí.
+            _questions = new List<Question>
+        {
+            new Question("¿Cuál es tu edad?", new List<QuestionOption>
+            {
+                new QuestionOption("Menos de 18 años", 1),
+                new QuestionOption("18-25 años", 2),
+                new QuestionOption("26-35 años", 3),
+                new QuestionOption("36-45 años", 4),
+                new QuestionOption("Más de 45 años", 5)
+            }),
+            new Question("¿Estás con tu pareja o amigos?", new List<QuestionOption>
+            {
+                new QuestionOption("Pareja", 1),
+                new QuestionOption("Amigos", 2),
+                new QuestionOption("Solo", 3),
+            }),
+            new Question("¿Es de día, noche o tarde?", new List<QuestionOption>
+            {
+                new QuestionOption("Día", 1),
+                new QuestionOption("Tarde", 2),
+                new QuestionOption("Noche", 3),
+            }),
+            new Question("¿Formal o casual?", new List<QuestionOption>
+            {
+                new QuestionOption("Formal", 1),
+                new QuestionOption("Casual", 2),
+            })
+        };
+
+            CurrentQuestion = _questions[_currentQuestionIndex];
+        }
+
+        public Question CurrentQuestion
+        {
+            get => _currentQuestion;
             set
             {
-                _questionModel = value;
-                OnPropertyChanged(nameof(QuestionModel));
+                _currentQuestion = value;
+                OnPropertyChanged(nameof(CurrentQuestion));
             }
         }
 
-        public ICommand OnOpenCommand { get; private set; }
+        public bool CanMoveNext => _currentQuestionIndex < _questions.Count - 1;
+        public bool CanMovePrev => _currentQuestionIndex > 0;
 
-        public QuestionsViewModel(IConnectivity connectivity, IGeolocation geolocation)
-		{
-            OnOpenCommand = new Command(OnOpen);
-            this.connectivity = connectivity;
-            this.geolocation = geolocation;
-        }
+        public List<QuestionOption> Answers { get; } = new List<QuestionOption>();
 
-        private async void OnOpen()
+        public Command MoveNextCommand => new Command(MoveNext, () => CanMoveNext);
+        public Command MovePrevCommand => new Command(MovePrev, () => CanMovePrev);
+
+        public void SelectOption(QuestionOption option)
         {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (option != null)
             {
-                await Shell.Current.DisplayAlert("No connectivity!",
-                    $"Please check internet and try again.", "OK");
-                return;
+                Answers.Add(option);
+                MoveNext();
             }
+        }
 
-            try
+        private async void MoveNext()
+        {
+            if (CanMoveNext)
             {
-                // Get cached location, else get real location.
-                var location = await geolocation.GetLastKnownLocationAsync();
-                if (location == null)
+                _currentQuestionIndex++;
+                CurrentQuestion = _questions[_currentQuestionIndex];
+                ((Command)MoveNextCommand).ChangeCanExecute();
+                ((Command)MovePrevCommand).ChangeCanExecute();
+            }
+            else
+            {
+                await Shell.Current.GoToAsync(nameof(QuestionsPage), true, new Dictionary<string, object>
                 {
-                    location = await geolocation.GetLocationAsync(new GeolocationRequest
-                    {
-                        DesiredAccuracy = GeolocationAccuracy.Medium,
-                        Timeout = TimeSpan.FromSeconds(30)
-                    });
-                }
-
-                // Find closest monkey to us
-                
-
-                await Shell.Current.DisplayAlert("", QuestionModel.Title, "OK");
-
+                    {"questions", _questions }
+                });
             }
-            catch (Exception ex)
+        }
+
+        private void MovePrev()
+        {
+            if (CanMovePrev)
             {
-                Debug.WriteLine($"Unable to query location: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+                _currentQuestionIndex--;
+                CurrentQuestion = _questions[_currentQuestionIndex];
+                ((Command)MoveNextCommand).ChangeCanExecute();
+                ((Command)MovePrevCommand).ChangeCanExecute();
             }
         }
     }
+
 }
 

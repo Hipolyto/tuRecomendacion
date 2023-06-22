@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tuRecomendacion.Views.LoginPage"
+             Title="LoginPage">
+    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20">
+        
+        <!-- Logo or Title of your app -->
+        <Label Text="TusRecomendaciones" FontSize="32" HorizontalOptions="Center"/>
+        
+        <!-- Login with Facebook button -->
+        <Button Text="Login with Facebook" 
+                Command="{Binding FacebookLoginCommand}"
+                BackgroundColor="Blue" 
+                TextColor="White"
+                Margin="0, 20"/>
+        
+        <!-- Login with Apple button -->
+        <Button Text="Login with Apple" 
+                Command="{Binding AppleLoginCommand}"
+                BackgroundColor="Black" 
+                TextColor="White"/>
+    </VerticalStackLayout>
+</ContentPage>

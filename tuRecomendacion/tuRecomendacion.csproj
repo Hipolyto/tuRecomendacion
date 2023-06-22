@@ -15,7 +15,7 @@
 		<ApplicationTitle>tuRecomendacion</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.turecomendacion</ApplicationId>
+		<ApplicationId>com.nutrisa</ApplicationId>
 		<ApplicationIdGuid>57fbeb6f-ecf0-48ad-bc27-107b8b016356</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -32,9 +32,13 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>Automatic</CodesignProvision>
+	  <CodesignKey>iPhone Developer</CodesignKey>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
+	  <CodesignKey>iPhone Developer</CodesignKey>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -63,9 +67,15 @@
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
 	  <Folder Include="Model\" />
+	  <Folder Include="Interfaces\" />
+	  <Folder Include="Services\" />
+	  <Folder Include="Converters\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="ViewModels\" />
 	  <None Remove="Model\" />
+	  <None Remove="Interfaces\" />
+	  <None Remove="Services\" />
+	  <None Remove="Converters\" />
 	</ItemGroup>
 </Project>

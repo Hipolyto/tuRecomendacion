@@ -1,4 +1,6 @@
-﻿namespace tuRecomendacion;
+﻿using tuRecomendacion.Views;
+
+namespace tuRecomendacion;
 
 public partial class AppShell : Shell
 {
@@ -6,6 +8,7 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
+        //Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
         Routing.RegisterRoute(nameof(QuestionsPage), typeof(QuestionsPage));
     }
 }
