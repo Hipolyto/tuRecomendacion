@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="tuRecomendacion.Views.ResultsListPage"
+             Title="ResultsList">
+    <ScrollView
+        Margin="0"
+        Padding="30">
+    <VerticalStackLayout
+        Spacing="20"
+        BindableLayout.ItemsSource="{Binding Questions}">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <VerticalStackLayout>
+                    <Label
+                        Text="{Binding Text}"
+                        FontSize="24" />
+                    <VerticalStackLayout
+                        Spacing="5"
+                        BindableLayout.ItemsSource="{Binding Choices}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Frame
+                                    Padding="10"
+                                    Margin="10,0">
+                                    <HorizontalStackLayout
+                                        Spacing="15">
+                                        <Label
+                                            Text="{Binding AnswerCount, StringFormat='Respuestas {0}'}" />
+                                        <Label
+                                            Text="{Binding Text}"
+                                            BackgroundColor="White" />
+                                    </HorizontalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

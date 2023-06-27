@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Microsoft.Maui.Networking;
 using tuRecomendacion.Interfaces;
 using tuRecomendacion.Model;
+using tuRecomendacion.Views;
 
 namespace tuRecomendacion.ViewModels
 {
@@ -12,99 +13,108 @@ namespace tuRecomendacion.ViewModels
     public class QuestionsViewModel : BaseViewModel
     {
         private Question _currentQuestion;
-        private int _currentQuestionIndex;
-        private List<Question> _questions;
+        private int _currentQuestionIndex = 0;
+        private QuestionOption _selectedOption;
 
         public QuestionsViewModel()
         {
-            _currentQuestionIndex = 0;
+            MovePrevCommand = new Command(MovePrev, CanMovePrevAction);
+            MoveNextCommand = new Command(MoveNext, CanMoveNextAction);
 
             // Define las preguntas y sus opciones aquí.
-            _questions = new List<Question>
-        {
-            new Question("¿Cuál es tu edad?", new List<QuestionOption>
+            Questions = new ObservableCollection<Question>
             {
-                new QuestionOption("Menos de 18 años", 1),
-                new QuestionOption("18-25 años", 2),
-                new QuestionOption("26-35 años", 3),
-                new QuestionOption("36-45 años", 4),
-                new QuestionOption("Más de 45 años", 5)
-            }),
-            new Question("¿Estás con tu pareja o amigos?", new List<QuestionOption>
-            {
-                new QuestionOption("Pareja", 1),
-                new QuestionOption("Amigos", 2),
-                new QuestionOption("Solo", 3),
-            }),
-            new Question("¿Es de día, noche o tarde?", new List<QuestionOption>
-            {
-                new QuestionOption("Día", 1),
-                new QuestionOption("Tarde", 2),
-                new QuestionOption("Noche", 3),
-            }),
-            new Question("¿Formal o casual?", new List<QuestionOption>
-            {
-                new QuestionOption("Formal", 1),
-                new QuestionOption("Casual", 2),
-            })
-        };
-
-            CurrentQuestion = _questions[_currentQuestionIndex];
+                new Question("¿Cuál es tu edad?", new List<QuestionOption>
+                {
+                    new QuestionOption("Menos de 18 años", 1),
+                    new QuestionOption("18-25 años", 2),
+                    new QuestionOption("26-35 años", 3),
+                    new QuestionOption("36-45 años", 4),
+                    new QuestionOption("Más de 45 años", 5)
+                }),
+                new Question("¿Estás con tu pareja o amigos?", new List<QuestionOption>
+                {
+                    new QuestionOption("Pareja", 1),
+                    new QuestionOption("Amigos", 2),
+                    new QuestionOption("Solo", 3),
+                }),
+                new Question("¿Es de día, noche o tarde?", new List<QuestionOption>
+                {
+                    new QuestionOption("Día", 1),
+                    new QuestionOption("Tarde", 2),
+                    new QuestionOption("Noche", 3),
+                }),
+                new Question("¿Formal o casual?", new List<QuestionOption>
+                {
+                    new QuestionOption("Formal", 1),
+                    new QuestionOption("Casual", 2),
+                })
+            };
         }
-
-        public Question CurrentQuestion
+        public int CurrentQuestionIndex
         {
-            get => _currentQuestion;
+            get => _currentQuestionIndex;
+            set => SetProperty(ref _currentQuestionIndex, value);
+        }
+        public QuestionOption SelectedOption
+        {
+            get => _selectedOption;
             set
             {
-                _currentQuestion = value;
-                OnPropertyChanged(nameof(CurrentQuestion));
+                if (SetProperty(ref _selectedOption, value))
+                    SelectOption(SelectedOption);
             }
         }
-
-        public bool CanMoveNext => _currentQuestionIndex < _questions.Count - 1;
+        public ObservableCollection<Question> Questions { get; }
+        public bool CanMoveNext => _currentQuestionIndex < Questions.Count - 1;
         public bool CanMovePrev => _currentQuestionIndex > 0;
 
-        public List<QuestionOption> Answers { get; } = new List<QuestionOption>();
+        public ObservableCollection<QuestionOption> Answers { get; } = new ObservableCollection<QuestionOption>();
+        public Command MoveNextCommand { get; }
+        public Command MovePrevCommand { get; }
 
-        public Command MoveNextCommand => new Command(MoveNext, () => CanMoveNext);
-        public Command MovePrevCommand => new Command(MovePrev, () => CanMovePrev);
+        private bool CanMoveNextAction()
+        {
+            return CanMoveNext;
+        }
+        private bool CanMovePrevAction()
+        {
+            return CanMovePrev;
+        }
 
-        public void SelectOption(QuestionOption option)
+        public Command OnSelectCommand => new Command<QuestionOption>(q => SelectOption(q));
+
+        public async void SelectOption(QuestionOption option)
         {
             if (option != null)
             {
-                Answers.Add(option);
+                Questions[CurrentQuestionIndex].Choices.ForEach(i => i.IsSelected = false);
+                option.IsSelected = true;
+                await Task.Delay(TimeSpan.FromSeconds(0.5));
                 MoveNext();
             }
         }
-
         private async void MoveNext()
         {
             if (CanMoveNext)
             {
-                _currentQuestionIndex++;
-                CurrentQuestion = _questions[_currentQuestionIndex];
-                ((Command)MoveNextCommand).ChangeCanExecute();
-                ((Command)MovePrevCommand).ChangeCanExecute();
+                CurrentQuestionIndex++;
+                MoveNextCommand.ChangeCanExecute();
+                MovePrevCommand.ChangeCanExecute();
             }
             else
             {
-                await Shell.Current.GoToAsync(nameof(QuestionsPage), true, new Dictionary<string, object>
-                {
-                    {"questions", _questions }
-                });
+                Questions?.ToList()?.ForEach(i => i.Choices?.ToList()?.ForEach(o => { if (o.IsSelected) o.AnswerCount++; } ));
+                await Shell.Current.Navigation.PushAsync(new ResultsListPage(Questions.ToList()));
             }
         }
-
         private void MovePrev()
         {
             if (CanMovePrev)
             {
-                _currentQuestionIndex--;
-                CurrentQuestion = _questions[_currentQuestionIndex];
-                ((Command)MoveNextCommand).ChangeCanExecute();
-                ((Command)MovePrevCommand).ChangeCanExecute();
+                CurrentQuestionIndex--;
+                MovePrevCommand.ChangeCanExecute();
+                MoveNextCommand.ChangeCanExecute();
             }
         }
     }

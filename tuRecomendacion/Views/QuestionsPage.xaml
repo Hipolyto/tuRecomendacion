@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tuRecomendacion.QuestionsPage"
+             xmlns:vm="clr-namespace:tuRecomendacion.ViewModels"
              Title="{Binding QuestionModel.Title}" >
+    <ContentPage.BindingContext>
+        <vm:QuestionsViewModel />
+    </ContentPage.BindingContext>
     <VerticalStackLayout VerticalOptions="FillAndExpand">
         <ScrollView VerticalOptions="FillAndExpand">
             <Grid RowDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="FillAndExpand">
@@ -45,40 +49,68 @@
                     <Button Text="Open" Command="{Binding OnOpenCommand}" />
 
                 </StackLayout>
-
-               <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20"
-                            Grid.Row="0" Grid.RowSpan="4"
-                            >
-        
-                <!-- Current Question -->
-                <Label Text="{Binding CurrentQuestion.Text}" FontSize="24"/>
-
-                <!-- Answer List -->
-                <CollectionView ItemsSource="{Binding CurrentQuestion.Choices}"
-                                SelectionMode="Single"
-                                HeightRequest="350"
-                                VerticalOptions="Start"
-                                SelectedItem="{Binding SelectedOption, Mode=TwoWay}">
-                    <CollectionView.ItemTemplate>
+                
+                <CarouselView
+                    ItemsSource="{Binding Questions}"
+                    Position="{Binding CurrentQuestionIndex}">
+                    <CarouselView.ItemsLayout>
+                        <LinearItemsLayout
+                            Orientation="Horizontal" />
+                    </CarouselView.ItemsLayout>
+                    <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <Frame Padding="10" Margin="5"
-                                   BackgroundColor="{Binding IsSelected, Converter={StaticResource BooleanToColorConverter}}">
-                                <Label Text="{Binding Text}" />
-                            </Frame>
+                            <StackLayout
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                Padding="20"
+                                Grid.Row="0"
+                                Grid.RowSpan="3">
+                                <!-- Current Question -->
+                                <Label
+                                    Text="{Binding Text}"
+                                    FontSize="24" />
+                                <!-- Answer List -->
+                                <CollectionView
+                                    ItemsSource="{Binding Choices}"
+                                    SelectionMode="None"
+                                    HeightRequest="350"
+                                    VerticalOptions="Start">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame
+                                                Padding="10"
+                                                Margin="5"
+                                                BackgroundColor="{Binding IsSelected, Converter={StaticResource BooleanToColorConverter}}">
+                                                <Label
+                                                    Text="{Binding Text}"
+                                                    BackgroundColor="White" />
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=BindingContext.OnSelectCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
                 <!-- Navigation buttons -->
-                <StackLayout Orientation="Horizontal"
-                             VerticalOptions="End"
-                             HorizontalOptions="Center" Spacing="20">
-                    <Button Text="Previous" Command="{Binding MovePrevCommand}" />
-                    <Button Text="Next" Command="{Binding MoveNextCommand}" />
+                <StackLayout
+                    Grid.Row="3"
+                    Orientation="Horizontal"
+                    VerticalOptions="End"
+                    HorizontalOptions="Center"
+                    Spacing="20">
+                    <Button
+                        Text="Previous"
+                        Command="{Binding MovePrevCommand}" />
+                    <Button
+                        Text="Next"
+                        Command="{Binding MoveNextCommand}" />
                 </StackLayout>
-            </StackLayout>
-                   
-
             </Grid>
     </ScrollView>
     </VerticalStackLayout>
