@@ -31,7 +31,5 @@
 	<string>test1</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>test2</string>
-	<key>MinimumOSVersion</key>
-	<string>16.0</string>
 </dict>
 </plist>
