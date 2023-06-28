@@ -1,5 +1,8 @@
 ﻿using System.Reflection.PortableExecutable;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Handlers;
+using tuRecomendacion.Controls;
+using tuRecomendacion.Handlers;
 using tuRecomendacion.Interfaces;
 using tuRecomendacion.Services;
 using tuRecomendacion.ViewModels;
@@ -18,7 +21,13 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			}).ConfigureMauiHandlers(handlers =>
+            {
+#if __IOS__
+                //handlers.AddHandler(typeof(CustomLabel), typeof(CustomLabelHandler));
+#endif
+                 handlers.AddHandler(typeof(CustomLabel), typeof(CustomLabelHandler));
+            });
 
 #if DEBUG
 		builder.Logging.AddDebug();

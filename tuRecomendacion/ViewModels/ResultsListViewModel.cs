@@ -14,6 +14,7 @@ namespace tuRecomendacion.ViewModels
         {
             Questions = new ObservableCollection<Question>(questions);
         }
+
         public ObservableCollection<Question> Questions { get; }
     }
 }

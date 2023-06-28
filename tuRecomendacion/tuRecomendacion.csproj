@@ -62,11 +62,23 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
+		<Compile Remove="**\**\*.Android.cs" />
+		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true AND $(TargetFramework.StartsWith('net7.0-maccatalyst')) != true">
+		<Compile Remove="**\**\*.MaciOS.cs" />
+		<None Include="**\**\*.MaciOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
 	
 	<ItemGroup>
 	  <Folder Include="Interfaces\" />
 	  <Folder Include="Services\" />
 	  <Folder Include="Converters\" />
+	  <Folder Include="Controls\" />
+	  <Folder Include="Handlers\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="ViewModels\" />
@@ -74,6 +86,8 @@
 	  <None Remove="Interfaces\" />
 	  <None Remove="Services\" />
 	  <None Remove="Converters\" />
+	  <None Remove="Controls\" />
+	  <None Remove="Handlers\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Views\ResultsListPage.xaml.cs">
