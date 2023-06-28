@@ -1,9 +1,12 @@
 ﻿using System.Reflection.PortableExecutable;
 using Microsoft.Extensions.Logging;
+using tuRecomendacion.Controls;
 using tuRecomendacion.Interfaces;
 using tuRecomendacion.Services;
 using tuRecomendacion.ViewModels;
 using tuRecomendacion.Views;
+using tuRecomendacion.Handlers;
+using tuRecomendacion.Renderers;
 
 namespace tuRecomendacion;
 
@@ -14,6 +17,14 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.ConfigureMauiHandlers(handlers =>
+			{
+				handlers.AddHandler(typeof(CustomEntry), typeof(CustomEntryHandler));
+                handlers.AddHandler(typeof(CustomButton), typeof(CustomButtonHandler));
+                handlers.AddHandler(typeof(PressableView), typeof(PressableViewRenderer));
+                handlers.AddHandler(typeof(RoundedFrame), typeof(RoundedFrameRenderer));
+
+            })
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
