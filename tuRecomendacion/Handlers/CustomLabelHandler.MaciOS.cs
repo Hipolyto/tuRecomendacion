@@ -9,34 +9,25 @@ namespace tuRecomendacion.Handlers
 {
     public partial class CustomLabelHandler : ViewHandler<CustomLabel, UILabel>
     {
-        public CustomLabelHandler(IPropertyMapper mapper, CommandMapper commandMapper = null) : base(mapper, commandMapper)
+        public static void MapCommand(CustomLabelHandler handler, CustomLabel view)
         {
-        }
+            if (handler.PlatformView != null && view.Command != null)
+            {
+                handler.PlatformView.UserInteractionEnabled = true;
+                var tapGestureRecognizer = new UITapGestureRecognizer(() =>
+                {
+                    view.Command.Execute(null);
+                });
 
-        public static void MapCommand(LabelHandler handler, CustomLabel view)
-        {
-            var st = handler?.PlatformView;
-           // var nativeLabel = (UILabel)handler.PlatformView .NativeView;
-
-            // Aquí tendrías la lógica específica para manejar el cambio en la propiedad Command en iOS.
+                handler.PlatformView.AddGestureRecognizer(tapGestureRecognizer);
+            }
         }
 
         protected override UILabel CreatePlatformView()
         {
-            return new UILabel();
-        }
-
-        protected override void ConnectHandler(UILabel platformView)
-        {
-            base.ConnectHandler(platformView);
-
-            // Perform any control setup here
-        }
-
-        protected override void DisconnectHandler(UILabel platformView)
-        {
-            platformView.Dispose();
-            base.DisconnectHandler(platformView);
+            var lbl = new UILabel();
+            lbl.Text = VirtualView?.Text;
+            return lbl;
         }
     }
 }
