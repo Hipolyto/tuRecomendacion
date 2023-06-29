@@ -23,6 +23,8 @@ public class BaseViewModel : INotifyPropertyChanged
         return true;
     }
 
+    public string Title { get; set; }
+
     private bool _isBusy;
     public bool IsBusy
     {

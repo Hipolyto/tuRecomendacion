@@ -4,6 +4,8 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Handlers;
 using tuRecomendacion.Controls;
+using Foundation;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace tuRecomendacion.Handlers
 {
@@ -20,6 +22,20 @@ namespace tuRecomendacion.Handlers
                 });
 
                 handler.PlatformView.AddGestureRecognizer(tapGestureRecognizer);
+            }
+        }
+
+        public static void MapIsUnderLine(CustomLabelHandler handler, CustomLabel customLabel)
+        {
+            if (customLabel.IsUnderLine)
+            {
+                handler.PlatformView.UserInteractionEnabled = true;
+                var underlineAttribute = new UIStringAttributes
+                {
+                    UnderlineStyle = NSUnderlineStyle.Thick
+                };
+                var underlineAttributedString = new NSAttributedString(customLabel.Text, underlineAttribute);
+                handler.PlatformView.AttributedText = underlineAttributedString;
             }
         }
 

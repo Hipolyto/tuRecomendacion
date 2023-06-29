@@ -16,7 +16,8 @@ namespace tuRecomendacion.Handlers
     {
         public static IPropertyMapper<CustomLabel, CustomLabelHandler> PropertyMapper = new PropertyMapper<CustomLabel, CustomLabelHandler>(CustomLabelHandler.ViewMapper)
         {
-            [nameof(CustomLabel.Command)] = MapCommand
+            [nameof(CustomLabel.Command)] = MapCommand,
+            [nameof(CustomLabel.IsUnderLine)] = MapIsUnderLine
         };
 
         public CustomLabelHandler() : base(PropertyMapper)

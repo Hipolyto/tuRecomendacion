@@ -23,9 +23,17 @@
                 TextColor="White"/>
 
 
-        <controls:CustomLabel
-            VerticalOptions="End" HorizontalOptions="Center"
+        <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
 
-            Text="Ayuda!" Command="{Binding AppleLoginCommand}"/>
+            <controls:CustomLabel
+            VerticalOptions="End" HorizontalOptions="Center"
+            Margin="10,50,10,0" IsUnderLine="true"
+            Text="Terms!" Command="{Binding HelpLoginCommand}"/>
+
+            <controls:CustomLabel
+            VerticalOptions="End" HorizontalOptions="Center"
+            Margin="10,50,10,0" IsUnderLine="true"
+            Text="Help!" Command="{Binding HelpLoginCommand}"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

@@ -31,5 +31,12 @@ namespace tuRecomendacion.Handlers
                 };
             }
         }
+
+        public static void MapIsUnderLine(CustomLabelHandler arg1, CustomLabel arg2)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

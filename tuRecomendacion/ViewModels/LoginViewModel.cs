@@ -10,6 +10,7 @@ public class LoginViewModel : BaseViewModel
 
     public ICommand FacebookLoginCommand { get; }
     public ICommand AppleLoginCommand { get; }
+    public ICommand HelpLoginCommand { get; }
 
     public LoginViewModel(IAuthService authService, IAppleAuthService authAppleService)
     {
@@ -18,6 +19,7 @@ public class LoginViewModel : BaseViewModel
 
         FacebookLoginCommand = new Command(async () => await OnFacebookLoginClicked());
         AppleLoginCommand = new Command(async () => await OnAppleLoginClicked());
+        HelpLoginCommand = new Command(async () => await OnHelpClicked());
     }
 
     private async Task OnFacebookLoginClicked()
@@ -28,7 +30,7 @@ public class LoginViewModel : BaseViewModel
         // Navigate to the next page if successful...
         if (user != null)
         {
-            var QuestionModel = new QuestionModel() { Title = "Hola Mundo Fb" };
+            var QuestionModel = new QuestionModel() { Title = "From Fb" };
             await Shell.Current.GoToAsync(nameof(QuestionsPage), true, new Dictionary<string, object>
             {
                 {"QuestionModel", QuestionModel }
@@ -45,12 +47,18 @@ public class LoginViewModel : BaseViewModel
         // Navigate to the next page if successful...
         if (user != null)
         {
-            var QuestionModel = new QuestionModel() { Title = "Hola Mundo Apple" };
+            var QuestionModel = new QuestionModel() { Title = "From Apple" };
             await Shell.Current.GoToAsync(nameof(QuestionsPage), true, new Dictionary<string, object>
             {
                 {"QuestionModel", QuestionModel }
             });
         }
+    }
+
+    private async Task OnHelpClicked()
+    {
+        string url = "https://www.google.com";
+        await Launcher.OpenAsync(new Uri(url));
     }
 }
 

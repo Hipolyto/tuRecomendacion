@@ -12,56 +12,54 @@ namespace tuRecomendacion.Services
         {
             // Create a list of mock questions
             var questions = new List<Question>
-        {
-            new Question
             {
-                Id = "1",
-                Text = "¿Cuál es tu edad?",
-                Choices = new List<QuestionOption>
+                new Question
                 {
-                    new QuestionOption("Menor de 18"),
-                    new QuestionOption("18-30"),
-                   new QuestionOption( "31-50"),
-                    new QuestionOption("51 o más")
-                }
-            },
-            new Question
-            {
-                Id = "2",
-                Text = "¿Con quién vas? ¿Pareja o amigos?",
-                Choices = new List<QuestionOption>
+                    Id = "1",
+                    Text = "What is your age?",
+                    Choices = new List<QuestionOption>
+                    {
+                        new QuestionOption("Under 18"),
+                        new QuestionOption("18-30"),
+                        new QuestionOption("31-50"),
+                        new QuestionOption("51 or older")
+                    }
+                },
+                new Question
                 {
-                   new QuestionOption( "Pareja"),
-                   new QuestionOption( "Amigos")
-                }
-            },
-            new Question
-            {
-                Id = "3",
-                Text = "¿Qué prefieres? ¿Día, noche o tarde?",
-                Choices = new List<QuestionOption>
+                    Id = "2",
+                    Text = "Who are you going with? Partner or friends?",
+                    Choices = new List<QuestionOption>
+                    {
+                        new QuestionOption("Partner"),
+                        new QuestionOption("Friends")
+                    }
+                },
+                new Question
                 {
-                   new QuestionOption( "Día"),
-                  new QuestionOption(  "Tarde"),
-                   new QuestionOption( "Noche")
-                }
-            },
-            new Question
-            {
-                Id = "4",
-                Text = "¿Qué estilo prefieres? ¿Formal o casual?",
-                Choices = new List<QuestionOption>
+                    Id = "3",
+                    Text = "What do you prefer? Day, evening, or night?",
+                    Choices = new List<QuestionOption>
+                    {
+                        new QuestionOption("Day"),
+                        new QuestionOption("Evening"),
+                        new QuestionOption("Night")
+                    }
+                },
+                new Question
                 {
-                   new QuestionOption( "Formal"),
-                   new QuestionOption( "Casual")
+                    Id = "4",
+                    Text = "What style do you prefer? Formal or casual?",
+                    Choices = new List<QuestionOption>
+                    {
+                        new QuestionOption("Formal"),
+                        new QuestionOption("Casual")
+                    }
                 }
-            }
-        };
+            };
 
             // Return the list of questions as a Task
             return Task.FromResult(questions);
         }
     }
-
 }
-

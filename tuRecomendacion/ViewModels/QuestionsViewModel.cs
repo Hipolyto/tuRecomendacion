@@ -16,6 +16,8 @@ namespace tuRecomendacion.ViewModels
         private int _currentQuestionIndex = 0;
         private QuestionOption _selectedOption;
 
+        public QuestionModel QuestionModel { get; set; }
+
         public QuestionsViewModel()
         {
             MovePrevCommand = new Command(MovePrev, CanMovePrevAction);
@@ -23,34 +25,36 @@ namespace tuRecomendacion.ViewModels
 
             // Define las preguntas y sus opciones aquí.
             Questions = new ObservableCollection<Question>
-            {
-                new Question("¿Cuál es tu edad?", new List<QuestionOption>
-                {
-                    new QuestionOption("Menos de 18 años", 1),
-                    new QuestionOption("18-25 años", 2),
-                    new QuestionOption("26-35 años", 3),
-                    new QuestionOption("36-45 años", 4),
-                    new QuestionOption("Más de 45 años", 5)
-                }),
-                new Question("¿Estás con tu pareja o amigos?", new List<QuestionOption>
-                {
-                    new QuestionOption("Pareja", 1),
-                    new QuestionOption("Amigos", 2),
-                    new QuestionOption("Solo", 3),
-                }),
-                new Question("¿Es de día, noche o tarde?", new List<QuestionOption>
-                {
-                    new QuestionOption("Día", 1),
-                    new QuestionOption("Tarde", 2),
-                    new QuestionOption("Noche", 3),
-                }),
-                new Question("¿Formal o casual?", new List<QuestionOption>
-                {
-                    new QuestionOption("Formal", 1),
-                    new QuestionOption("Casual", 2),
-                })
-            };
+{
+    new Question("What is your age?", new List<QuestionOption>
+    {
+        new QuestionOption("Under 18 years old", 1),
+        new QuestionOption("18-25 years old", 2),
+        new QuestionOption("26-35 years old", 3),
+        new QuestionOption("36-45 years old", 4),
+        new QuestionOption("Over 45 years old", 5)
+    }),
+    new Question("Are you with your partner or friends?", new List<QuestionOption>
+    {
+        new QuestionOption("Partner", 1),
+        new QuestionOption("Friends", 2),
+        new QuestionOption("Alone", 3),
+    }),
+    new Question("Is it day, evening, or night?", new List<QuestionOption>
+    {
+        new QuestionOption("Day", 1),
+        new QuestionOption("Evening", 2),
+        new QuestionOption("Night", 3),
+    }),
+    new Question("Formal or casual?", new List<QuestionOption>
+    {
+        new QuestionOption("Formal", 1),
+        new QuestionOption("Casual", 2),
+    })
+};
+
         }
+
         public int CurrentQuestionIndex
         {
             get => _currentQuestionIndex;
@@ -117,6 +121,8 @@ namespace tuRecomendacion.ViewModels
                 MoveNextCommand.ChangeCanExecute();
             }
         }
+
+
     }
 
 }
