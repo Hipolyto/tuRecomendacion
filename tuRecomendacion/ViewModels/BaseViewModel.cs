@@ -31,4 +31,8 @@ public class BaseViewModel : INotifyPropertyChanged
         get { return _isBusy; }
         set { SetProperty(ref _isBusy, value); }
     }
+
+    public virtual void OnAppearing()
+    {
+    }
 }

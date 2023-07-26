@@ -8,11 +8,20 @@ using tuRecomendacion.Model;
 
 namespace tuRecomendacion.ViewModels
 {
+    [QueryProperty(nameof(QuestionsList), "QuestionsList")]
     public class ResultsListViewModel : BaseViewModel
     {
-        public ResultsListViewModel(List<Question> questions)
+        public ObservableCollection<Question> QuestionsList { get; set; }
+
+        public ResultsListViewModel()
         {
-            Questions = new ObservableCollection<Question>(questions);
+
+            QuestionsList = new ObservableCollection<Question>();
+        }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
         }
 
         public ObservableCollection<Question> Questions { get; }

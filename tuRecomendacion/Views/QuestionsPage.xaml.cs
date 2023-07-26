@@ -1,4 +1,5 @@
-﻿using tuRecomendacion.ViewModels;
+﻿
+using tuRecomendacion.ViewModels;
 
 namespace tuRecomendacion;
 
@@ -12,9 +13,18 @@ public partial class QuestionsPage : ContentPage
         set => name = value;
     }
 
+    public QuestionsViewModel ViewModel;
+
     public QuestionsPage(QuestionsViewModel viewModel)
 	{
 		InitializeComponent();
-        BindingContext = viewModel;
+        ViewModel = viewModel;
+        BindingContext = ViewModel;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ViewModel.OnAppearing();
     }
 }

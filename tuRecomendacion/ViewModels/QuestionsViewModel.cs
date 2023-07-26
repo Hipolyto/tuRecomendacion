@@ -109,7 +109,12 @@ namespace tuRecomendacion.ViewModels
             else
             {
                 Questions?.ToList()?.ForEach(i => i.Choices?.ToList()?.ForEach(o => { if (o.IsSelected) o.AnswerCount++; } ));
-                await Shell.Current.Navigation.PushAsync(new ResultsListPage(Questions.ToList()));
+
+
+                await Shell.Current.GoToAsync(nameof(ResultsListPage), true, new Dictionary<string, object>
+                {
+                    {"QuestionsList", Questions}
+                });
             }
         }
         private void MovePrev()

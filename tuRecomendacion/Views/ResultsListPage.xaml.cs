@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using AndroidX.Lifecycle;
 using tuRecomendacion.Model;
 using tuRecomendacion.ViewModels;
 
@@ -6,9 +7,18 @@ namespace tuRecomendacion.Views;
 
 public partial class ResultsListPage : ContentPage
 {
-	public ResultsListPage(List<Question> questions)
+    public ResultsListViewModel ViewModel;
+
+    public ResultsListPage(ResultsListViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = new ResultsListViewModel(questions);
+        ViewModel = viewModel;
+        BindingContext = viewModel;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ViewModel.OnAppearing();
+    }
 }
