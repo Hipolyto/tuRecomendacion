@@ -6,6 +6,7 @@
     <ScrollView
         Margin="0"
         Padding="30">
+        <!--
     <VerticalStackLayout
         Spacing="20"
         BindableLayout.ItemsSource="{Binding QuestionsList}">
@@ -39,5 +40,6 @@
             </DataTemplate>
         </BindableLayout.ItemTemplate>
     </VerticalStackLayout>
+        -->
     </ScrollView>
 </ContentPage>

@@ -1,6 +1,5 @@
 ﻿
 using tuRecomendacion.ViewModels;
-
 namespace tuRecomendacion;
 
 [QueryProperty(nameof(Name), "name")]

@@ -110,10 +110,15 @@ namespace tuRecomendacion.ViewModels
             {
                 Questions?.ToList()?.ForEach(i => i.Choices?.ToList()?.ForEach(o => { if (o.IsSelected) o.AnswerCount++; } ));
 
-
+                /*
                 await Shell.Current.GoToAsync(nameof(ResultsListPage), true, new Dictionary<string, object>
                 {
-                    {"QuestionsList", Questions}
+                    {"QuestionsList", Questions.ToList()}
+                });
+                */
+                await Shell.Current.GoToAsync(nameof(ResultsListPage), true, new Dictionary<string, object>
+                {
+                    {"QuestionsList", null}
                 });
             }
         }
